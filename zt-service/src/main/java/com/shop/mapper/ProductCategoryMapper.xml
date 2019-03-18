@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.ProductCategoryMapper">
+	<resultMap type="com.shop.model.ProductCategoryDO"
+		id="categoryAndProductMap">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<collection property="productList"
+			ofType="com.shop.model.ProductDO">
+			<id property="id" column="pid" />
+			<result property="name" column="pname" />
+			<result property="code" column="code" />
+			<result property="price" column="price" />
+			<result property="sale" column="sale" />
+			<result property="unit" column="unit" />
+			<result property="image" column="pimage" />
+			<result property="images" column="images" />
+			<result property="description" column="description" />
+		</collection>
+	</resultMap>
+	<resultMap type="com.shop.model.ProductCategoryDO"
+		id="categoryAndTemplateMap">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<association property="template"
+			javaType="com.shop.model.ProductTemplateDO">
+			<id property="id" column="tid" />
+			<result property="name" column="tname" />
+			<result property="basicattr" column="basicattr" />
+			<result property="extendattr" column="extendattr" />
+			<result property="isdefault" column="isdefault" />
+		</association>
+	</resultMap>
+	<resultMap type="com.shop.model.ProductCategoryDO"
+		id="categoryAndChildrenMap">
+		<id property="id" column="id" />
+		<result property="parentid" column="PARENTID" />
+		<result property="name" column="NAME" />
+		<result property="image" column="IMAGE" />
+		<result property="content" column="CONTENT" />
+		<result property="templateid" column="TEMPLATEID" />
+		<collection property="children"
+			javaType="com.shop.model.ProductCategoryDO">
+			<id property="id" column="cid" />
+			<result property="name" column="cname" />
+			<result property="parentid" column="cparentid" />
+		</collection>
+	</resultMap>
+	<resultMap type="com.shop.model.ProductCategoryDO"
+		id="categoryAndParentMap">
+		<id property="id" column="id" />
+		<result property="parentid" column="PARENTID" />
+		<result property="name" column="NAME" />
+		<result property="image" column="IMAGE" />
+		<result property="content" column="CONTENT" />
+		<result property="templateid" column="TEMPLATEID" />
+		<association property="parent"
+			javaType="com.shop.model.ProductCategoryDO">
+			<id property="id" column="cid" />
+			<result property="name" column="cname" />
+			<result property="parentid" column="cparentid" />
+		</association>
+	</resultMap>
+	<resultMap type="com.shop.model.ProductCategoryDO"
+		id="categoryBasicMap">
+		<id property="id" column="id" />
+		<result property="parentid" column="PARENTID" />
+		<result property="name" column="NAME" />
+		<result property="image" column="IMAGE" />
+		<result property="content" column="CONTENT" />
+		<result property="templateid" column="TEMPLATEID" />
+	</resultMap>
+	<sql id="selectCategoryAndParent">
+		select c.ID id ,c.PARENTID parentid, c.NAME name ,c.IMAGE
+		image, c.CONTENT
+		content , c.TEMPLATEID
+		templateid,
+		cp.ID cid,cp.NAME
+		cname,cp.PARENTID
+		cparentid from T_PRODUCT_CATEGORY c
+		left join
+		T_PRODUCT_CATEGORY cp
+		on
+		c.PARENTID = cp.ID
+	</sql>
+	<sql id="selectCategoryAndChildren">
+		select c.ID id ,c.PARENTID parentid, c.NAME name ,c.IMAGE
+		image, c.CONTENT
+		content , c.TEMPLATEID
+		templateid,
+		cp.ID cid,cp.NAME
+		cname,cp.PARENTID
+		cparentid from T_PRODUCT_CATEGORY c
+		left join
+		T_PRODUCT_CATEGORY cp
+		on
+		c.ID = cp.PARENTID
+	</sql>
+	<select id="findAllCategoryAndProducts"
+		resultMap="categoryAndProductMap">
+		select c.id
+		id,c.name name,p.id pid,p.name
+		pname,p.price,p.sale,p.unit,p.image
+		pimage,p.images,p.description
+		from
+		T_PRODUCT_CATEGORY c left join
+		T_PRODUCT p on c.ID=p.categoryid
+	</select>
+	<select id="findAllParentCategory" resultMap="categoryBasicMap">
+		select c.id
+		id,c.PARENTID parentid,c.name
+		name,c.SEQUENCE,c.IMAGE,c.CREATED,c.MODIFIED,c.CONTENT,c.TEMPLATEID
+		templateid from
+		T_PRODUCT_CATEGORY c
+		where
+		c.ISPARENT=1 and c.PARENTID=0
+	</select>
+	<select id="findRootsCategory" resultMap="categoryBasicMap">
+		select c.id
+		id,c.PARENTID parentid,c.name
+		name,c.SEQUENCE,c.IMAGE,c.CREATED,c.MODIFIED,c.CONTENT,c.TEMPLATEID
+		templateid from
+		T_PRODUCT_CATEGORY c
+		where
+		c.PARENTID=0
+	</select>
+	<select id="findChildCategoryByPId" parameterType="int"
+		resultMap="categoryBasicMap">
+		select c.id
+		id,c.PARENTID parentid,c.name
+		name,c.SEQUENCE,c.IMAGE,c.CREATED,c.MODIFIED,c.CONTENT,c.TEMPLATEID
+		templateid from
+		T_PRODUCT_CATEGORY c
+		where
+		c.PARENTID=#{id}
+	</select>
+	<select id="findCategoryAndProducts" parameterType="int"
+		resultMap="categoryAndProductMap">
+		select c.id
+		id,c.name name,p.id pid,p.name
+		pname,p.price,p.sale,p.unit,p.image
+		pimage,p.images,p.description
+		from
+		T_PRODUCT_CATEGORY c left join
+		T_PRODUCT p on c.ID=p.categoryid where c.id=#{id}
+	</select>
+	<select id="findCategoryAndTemplateByCId"
+		resultMap="categoryAndTemplateMap" parameterType="int">
+		select c.id id,c.name
+		name,t.id tid,t.name
+		tname,basicattr,extendattr,isdefault
+		from
+		T_PRODUCT_CATEGORY
+		c inner join T_PRODUCT_TEMPLATE t on
+		c.templateid=t.id
+		where c.id=#{id}
+	</select>
+	<select id="findAllCategory"
+		resultType="com.shop.model.ProductCategoryDO">
+		select * from
+		T_PRODUCT_CATEGORY
+	</select>
+	<select id="findCategoryByHcode" parameterType="string"
+		resultType="com.shop.model.ProductCategoryDO">
+		select * from
+		T_PRODUCT_CATEGORY
+		where HCODE=#{hcode}
+	</select>
+	<select id="selectAllProductCategoryExclude" parameterType="int"
+		resultType="com.shop.model.ProductCategoryDO">
+		select a.ID, a.PARENTID, a.NAME, a.IMAGE,
+		a.CREATED,a.CONTENT,
+		a.MODIFIED
+		from T_PRODUCT_CATEGORY a left join
+		(select ID, PARENTID,
+		NAME,
+		IMAGE,
+		CREATED, MODIFIED from
+		T_PRODUCT_CATEGORY where
+		id=#{id} or
+		PARENTID=#{id}) as b on a.ID = b.ID
+		where b.ID is NULL
+	</select>
+	<select id="findAllCategoryAndParent"
+		resultMap="categoryAndParentMap">
+		<include refid="selectCategoryAndParent"></include>
+	</select>
+	<select id="findCategoryAndParentById"
+		resultMap="categoryAndParentMap" parameterType="int">
+		<include refid="selectCategoryAndParent"></include>
+		where c.ID=#{id}
+	</select>
+	<select id="findCategoryAndChildrenById"
+		resultMap="categoryAndChildrenMap" parameterType="int">
+		<include refid="selectCategoryAndChildren"></include>
+		where c.ID=#{id}
+	</select>
+	<select id="findCategoryAndChildren"
+		resultMap="categoryAndChildrenMap">
+		<include refid="selectCategoryAndChildren"></include>
+		where c.PARENTID=0;
+	</select>
+	<select id="findCategoryById" parameterType="int"
+		resultType="com.shop.model.ProductCategoryDO">
+		select * from T_PRODUCT_CATEGORY where id=#{id}
+	</select>
+	<select id="findCategoryIdByName" parameterType="string"
+		resultType="int">
+		select ID from T_PRODUCT_CATEGORY where NAME=#{name}
+	</select>
+	<select id="findCategoryIds" resultType="int">
+		select ID from T_PRODUCT_CATEGORY where NAME in
+		<foreach collection="array" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<select id="findAllSequence" resultType="string">
+		select SEQUENCE from
+		T_PRODUCT_CATEGORY
+	</select>
+	<select id="checkProductCategoryExist"
+		resultType="com.shop.model.ProductCategoryDO" parameterType="String">
+		select *
+		from T_PRODUCT_CATEGORY where NAME=#{name}
+	</select>
+	<insert id="addCategory"
+		parameterType="com.shop.model.ProductCategoryDO">
+		insert into
+		T_PRODUCT_CATEGORY
+		(PARENTID,NAME,SEQUENCE,IMAGE,CREATED,MODIFIED,CONTENT,TEMPLATEID)
+		values(#{parentid},#{name},#{sequence},#{image},#{created},#{modified},#{content},#{templateid})
+	</insert>
+	<update id="updateCategory"
+		parameterType="com.shop.model.ProductCategoryDO">
+		update
+		T_PRODUCT_CATEGORY
+		<trim prefix="set" suffixOverrides=",">
+			<if test="parentid != null">
+				PARENTID = #{parentid},
+			</if>
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+			<if test="image != null">
+				IMAGE = #{image},
+			</if>
+			<if test="modified != null">
+				MODIFIED = #{modified},
+			</if>
+			<if test="content != null">
+				CONTENT = #{content},
+			</if>
+			<if test="templateid != null">
+				TEMPLATEID = #{templateid},
+			</if>
+		</trim>
+		where ID = #{id}
+	</update>
+	<delete id="delCategory" parameterType="int">
+		delete from
+		T_PRODUCT_CATEGORY where id=#{id}
+	</delete>
+	<delete id="delCategoryAndChildren" parameterType="int">
+		delete from
+		T_PRODUCT_CATEGORY where ID=#{id} or PARENTID=#{id}
+	</delete>
+</mapper>

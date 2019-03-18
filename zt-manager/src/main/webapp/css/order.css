@@ -1,0 +1,256 @@
+.order-infor-left {
+	width: 350px;
+	border-right: 1px solid #8AACE0;
+	padding: 5px;
+	float: left;
+}
+
+.ces-order-info {
+	background: url(../images/ces-order-checkout1.gif) no-repeat;
+	width: 340px;
+	height: 100px;
+	padding-top: 5px;
+}
+
+.order-infor-left .head {
+	overflow: hidden;
+}
+
+.order-infor-left .title-txt {
+	padding-left: 10px;
+	display: inline;
+	clear: none;
+	float: left;
+}
+
+.order-infor-left .title-txt div {
+	height: 80px;
+	line-height: 80px;
+	font-size: 18px;
+}
+
+.order-infor-left .order-line {
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	margin: 0px;
+	padding: 0px;
+	clear: both;
+	margin: 0px;
+}
+
+.order-infor-left .left {
+	float: left;
+	text-align: right;
+	width: 75px;
+}
+
+.order-infor-left .right {
+	word-break: break-all;
+	word-wrap: break-word;
+	margin-left: 10px;
+	float: left;
+}
+/*-”“±ﬂ-*/
+.order-infor-right {
+	float: left;
+	width: 480px;
+	padding: 5px 0px 5px 30px;
+	font-family: 'Œ¢»Ì—≈∫⁄';
+	font-size: 14px;
+	color: #000;
+	font-style: normal;
+}
+
+.order-infor-right .head li {
+	background: url(../images/ces-order-info1.png) no-repeat scroll 0 0
+		transparent;
+	height: 63px;
+	margin: 0px 10px 0px 0px;
+	width: 170px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	display: inline;
+}
+
+.order-infor-right .head .money {
+	margin-left: 20px;
+}
+
+.order-infor-right .head .text {
+	color: #005BA9;
+	line-height: 23px;
+}
+
+.order-infor-right .head .number {
+	line-height: 40px;
+	color: #424242;
+}
+
+.order-infor-right .infor li {
+	height: 30px;
+	line-height: 30px;
+	clear: both;
+	overflow: hidden;
+}
+
+.order-infor-right .infor em {
+	font-style: normal;
+}
+
+.payinfo-tit {
+	height: 21px;
+	line-height: 21px;
+	background: url(../images/ces-order-payinfo.gif) no-repeat 0px 0px;
+	font-weight: bold;
+}
+
+.leftcon {
+	display: table-cell;
+	width: 235px;
+	text-align: center;
+}
+
+.rightcon {
+	display: table-cell;
+	width: 235px;
+	text-align: center;
+}
+
+.payinfo-con {
+	background: url(../images/ces-order-payinfo-con.gif) repeat-y 0 0;
+}
+
+.ces-order-info-yz {
+	color: #22ac38;
+	margin-top: 5px;
+}
+
+.ces-order-info-yz em {
+	font-style: normal;
+	font-size: 24px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.ces-order-info em {
+	margin-right: 3px;
+}
+
+.ces-order-info-t1 {
+	height: 20px;
+	line-height: 30px;
+}
+
+.payinfo-bot {
+	height: 26px;
+	background: url(../images/ces-order-payinfo.gif) no-repeat 0px -26px;
+}
+
+.ces-order-checkout-scoll {
+	height: 310px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: 490px;
+	margin-top: 5px;
+}
+
+.ces-order-checkout-width {
+	width: 490px;
+	border-top: solid 1px #d0d0d0;
+	border-left: solid 1px #d0d0d0;
+}
+
+.ces-order-checkout-listBg {
+	background-color: #f0f0f0;
+	height: 25px;
+	line-height: 25px;
+}
+
+.ces-order-checkout-listBg td {
+	text-align: center;
+}
+
+.ces-order-checkout-list01 {
+	width: 250px;
+}
+
+.ces-order-checkout-list02 {
+	width: 100px;
+}
+
+.ces-order-checkout-list03 {
+	width: 40px;
+}
+
+.ces-order-checkout-list04 {
+	width: 100px;
+}
+
+.left {
+	text-align: left !important;
+}
+
+.center {
+	text-align: center !important;
+}
+
+.ces-position-table  tr td {
+	text-align: center;
+	border: solid #ddd 1px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.ces-order-info-total {
+	width: 100%;
+	height: 35px;
+	line-height: 35px;
+	float: right;
+}
+
+.fright {
+	float: right;
+	margin-right: 20px;
+}
+.fleft{
+	float:left;
+	margin-left:20px;
+}
+.ces-order-info-cus {
+	font-style: normal;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.order-track-msg {
+	width: 100%;
+	padding-left: 10px;
+	padding-top: 10px;
+}
+
+.order-track-msg ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.order-track-msg ul li {
+	height: 30px;
+	line-height: 30px;
+}
+
+.order-track-msg ul li span {
+	margin-right: 10px;
+}
+
+.layui-textarea {
+	min-height: 60px;
+	width: 330px;
+	height: 70px;
+	overflow: hidden;
+	float:left;
+}
+.order-paydetail{
+  color:blue;
+}

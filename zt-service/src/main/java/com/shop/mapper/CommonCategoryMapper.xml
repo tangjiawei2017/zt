@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.CommonCategoryMapper">
+	<resultMap id="BaseResultMap"
+		type="com.shop.model.CommonCategoryDO">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.shop.model.CommonCategoryDO">
+		<result column="DESCRIPTION" jdbcType="LONGVARCHAR"
+			property="description" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, NAME, CTIME
+	</sql>
+	<sql id="Blob_Column_List">
+		DESCRIPTION
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from T_COMMONCATEGORY
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="selectCommonCategoryByName"
+		parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from T_COMMONCATEGORY
+		where NAME = #{name}
+	</select>
+	<select id="selectAllCommonCategory"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from T_COMMONCATEGORY
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		T_COMMONCATEGORY
+		where ID =
+		#{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.shop.model.CommonCategoryDO">
+		insert into T_COMMONCATEGORY (ID,NAME, CTIME,
+		DESCRIPTION
+		)
+		values
+		(#{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},
+		#{ctime,jdbcType=TIMESTAMP},
+		#{description,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.shop.model.CommonCategoryDO">
+		insert into T_COMMONCATEGORY
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="ctime != null">
+				CTIME,
+			</if>
+			<if test="description != null">
+				DESCRIPTION,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.shop.model.CommonCategoryDO">
+		update T_COMMONCATEGORY
+		<set>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				CTIME = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="description != null">
+				DESCRIPTION = #{description,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="com.shop.model.CommonCategoryDO">
+		update T_COMMONCATEGORY
+		set NAME =
+		#{name,jdbcType=VARCHAR},
+		CTIME = #{ctime,jdbcType=TIMESTAMP},
+		DESCRIPTION = #{description,jdbcType=LONGVARCHAR}
+		where ID =
+		#{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.shop.model.CommonCategoryDO">
+		update T_COMMONCATEGORY
+		set NAME =
+		#{name,jdbcType=VARCHAR},
+		CTIME = #{ctime,jdbcType=TIMESTAMP}
+		where ID =
+		#{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

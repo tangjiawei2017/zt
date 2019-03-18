@@ -1,0 +1,135 @@
+.shiptime-form-label {
+	float: left;
+	display: block;
+	padding: 9px 15px 9px 0px;
+	width: 140px;
+	font-weight: 400;
+	text-align: right;
+}
+
+.shiptime-main-content {
+	background: none repeat scroll 0 0 #F0F0F2;
+	border: 1px solid #E6E6E6;
+	margin-left: 155px;
+	width: 700px;
+	height: 520px;
+}
+
+.main-panel-btn {
+	padding-left: 5px !important;
+}
+
+.shop-tree-header {
+	width: 100%;
+	background: url(../images/table-header.gif) repeat-x scroll 0 bottom
+		#F9F9F9;
+	height: 28px;
+	cursor: default;
+	border-bottom: 1px solid #D1D1D1;
+	cursor: default;
+}
+
+.shop-tree-header .shop-tree-hd {
+	width: 49.6%;
+	border-right: 1px solid #D0D0D0;
+	float: left;
+	overflow: hidden;
+	height: 28px;
+	border-left: 1px solid #EEEEEE;
+}
+
+.shop-tree-header .shop-tree-hd-text {
+	font: 13px;
+	overflow: hidden;
+	padding: 4px 3px 4px 5px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.shiptime-select1 {
+	width: 50px;
+	height: 25px;
+	margin: 9px 15px 9px 0px;
+}
+
+.left {
+	float: left;
+}
+
+.mleft {
+	margin-left: 10px;
+}
+
+.shiptime-form-right-div {
+	float: left;
+	width: 400px;
+	overflow: hidden;
+}
+
+.shiptime-form-mid {
+	color: #999;
+	float: left;
+	display: block;
+	padding: 9px 15px 9px 0px;
+	margin-right: 10px;
+}
+
+.shiptime-content table {
+	width: 100%;
+}
+
+.shiptime-content table td {
+	width: 50%;
+	padding-left: 5px;
+	height: 32px;
+	line-height: 32px;
+}
+
+.shiptime-content table td a {
+	text-decoration: underline;
+	color: #4D75A5;
+}
+
+.shiptime-content table td a:hover {
+	color: red;
+}
+
+.shiptime-content table td  input {
+	width: 300px;
+	height: 28px;
+}
+
+.shiptime-content table td .btn-gray {
+	background: none repeat scroll 0 0 #F5F5F5;
+	border: 1px solid #BDBDBD;
+	padding-right: 3px;
+	color: #000;
+	display: inline-block;
+	text-decoration: none;
+	cursor: pointer;
+	margin: 0 3px;
+	width:40px;
+	text-align: center;
+}
+.shiptime-form-right-div .layui-table th{
+	text-align: center;
+}
+.shiptime-form-right-div .layui-table td{
+	height:20px !important;
+	line-height:20px !important;
+	padding:0px;
+	text-align: center;
+}
+.shiptime-form-right-div .layui-table td select{
+	width:90%;
+}
+.shiptime-form-right-div .layui-table td a{
+	text-decoration: underline;
+	color: #4D75A5;
+}
+.shiptime-form-right-div .layui-table td a:hover{
+	color: red;
+}
+.simpleShipDiv{
+	margin:10px;
+}

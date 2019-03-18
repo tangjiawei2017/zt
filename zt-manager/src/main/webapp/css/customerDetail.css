@@ -1,0 +1,115 @@
+.customer-infor-left {
+	width: 350px;
+	border-right: 1px solid #8AACE0;
+	padding: 5px;
+	float: left;
+}
+
+.customer-infor-left .head {
+	overflow: hidden;
+}
+
+.customer-infor-left  .title-img {
+	width: 80px;
+	height: 80px;
+	float: left;
+	display: inline;
+	padding: 1px;
+	clear: none;
+}
+
+.customer-infor-left  .title-img img {
+	width: 80px;
+	height: 80px;
+}
+
+.customer-infor-left .title-txt {
+	padding-left: 10px;
+	display: inline;
+	clear: none;
+	float: left;
+}
+
+.customer-infor-left .title-txt div {
+	height: 80px;
+	line-height: 80px;
+	font-size: 18px;
+}
+
+.customer-infor-left .customer-line {
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	margin: 0px;
+	padding: 0px;
+	clear: both;
+	margin: 0px;
+}
+
+.customer-infor-left .left {
+	float: left;
+	text-align: right;
+	width: 125px;
+}
+
+.customer-infor-left .right {
+	word-break: break-all;
+	word-wrap: break-word;
+	margin-left: 10px;
+	float: left;
+}
+/*-”“±ﬂ-*/
+.customer-infor-right {
+	float: left;
+	width: 400px;
+	padding: 5px 0px 5px 30px;
+	font-family: 'Œ¢»Ì—≈∫⁄';
+	font-size: 14px;
+	color: #000;
+	font-style: normal;
+}
+
+.customer-infor-right .head li {
+	background: url(../images/ces-order-info1.png) no-repeat scroll 0 0
+		transparent;
+	height: 63px;
+	margin: 0px 10px 0px 0px;
+	width: 170px;
+	text-align: center;
+	font-weight: bold;
+	float: left;
+	display: inline;
+}
+
+.customer-infor-right .head .money {
+	margin-left: 20px;
+}
+
+.customer-infor-right .head .text {
+	color: #005BA9;
+	line-height: 23px;
+}
+
+.customer-infor-right .head .number {
+	line-height: 40px;
+	color: #424242;
+}
+
+.customer-infor-right .infor li {
+	height: 30px;
+	line-height: 30px;
+	clear: both;
+	overflow: hidden;
+}
+
+.customer-infor-right .infor em {
+	font-style: normal;
+}
+
+.layui-tab-content {
+	padding: 0 !important;
+}
+
+.layui-table-view {
+	margin: 0 !important;
+}

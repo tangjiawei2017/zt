@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.SiteConfigMapper">
+	<select id="getSiteConfigValue" parameterType="string"
+		resultType="com.shop.model.SiteConfigDO">
+		select ID id,IDENTIFIER
+		identifier,VALUE value,JSONVALUE
+		jsonvalue from T_SITECONFIG where IDENTIFIER=#{identifier}
+	</select>
+	<select id="selectAllSiteConfigMap"
+		resultType="com.shop.model.SiteConfigDO">
+		select IDENTIFIER
+		identifier,VALUE value from
+		T_SITECONFIG
+		where JSONVALUE is null
+	</select>
+	<insert id="addSiteConfig"
+		parameterType="com.shop.model.SiteConfigDO">
+		insert into T_SITECONFIG(IDENTIFIER,VALUE,JSONVALUE)
+		values(#{identifier},#{value},#{jsonvalue})
+	</insert>
+	<update id="updateSiteConfig"
+		parameterType="com.shop.model.SiteConfigDO">
+		update T_SITECONFIG
+		<trim prefix="set" suffixOverrides=",">
+			<if test="value!=null">VALUE=#{value},</if>
+			<if test="jsonvalue!=null">JSONVALUE=#{jsonvalue},</if>
+		</trim>
+		where IDENTIFIER=#{identifier}
+	</update>
+</mapper>

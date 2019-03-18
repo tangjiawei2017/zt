@@ -1,0 +1,20 @@
+body .success-class {
+	background: #9fd8ef;
+}
+
+body .success-class .layui-layer-content {
+	color: #00b38a;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+}
+
+body .error-class {
+	background: #9fd8ef;
+}
+
+body .error-class .layui-layer-content {
+	color: #f00;
+	font-size: 18px;
+	text-align: center;
+}

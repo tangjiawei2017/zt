@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.CustomFormItemMapper">
+	<resultMap id="BaseResultMap"
+		type="com.shop.model.CustomFormItemDO">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="FROM_ID" jdbcType="CHAR" property="fromId" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="ITEM_NAME" jdbcType="VARCHAR" property="itemName" />
+		<result column="TYPE" jdbcType="INTEGER" property="type" />
+		<result column="DATA_TYPE" jdbcType="INTEGER"
+			property="dataType" />
+		<result column="DATA_VALUE" jdbcType="VARCHAR"
+			property="dataValue" />
+		<result column="IS_ITEM" jdbcType="BIT" property="isItem" />
+		<result column="ITEM_PROMPT" jdbcType="VARCHAR"
+			property="itemPrompt" />
+		<result column="IS_REQURIED" jdbcType="BIT"
+			property="isRequried" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, FROM_ID, NAME,ITEM_NAME,TYPE, DATA_TYPE,DATA_VALUE, IS_ITEM,
+		ITEM_PROMPT,
+		IS_REQURIED
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_CUSTOM_FORM_ITEM
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_CUSTOM_FORM_ITEM
+	</select>
+	<select id="selectCustomFormItemByFormId"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_CUSTOM_FORM_ITEM where FROM_ID=#{id}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from T_CUSTOM_FORM_ITEM
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByCustomFormId"
+		parameterType="java.lang.String">
+		delete from T_CUSTOM_FORM_ITEM
+		where FROM_ID =
+		#{id}
+	</delete>
+	<insert id="insert"
+		parameterType="com.shop.model.CustomFormItemDO">
+		<selectKey keyProperty="id" order="AFTER"
+			resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into T_CUSTOM_FORM_ITEM (FROM_ID, NAME, ITEM_NAME,TYPE,DATA_TYPE,
+		DATA_VALUE,
+		IS_ITEM, ITEM_PROMPT,
+		IS_REQURIED)
+		values
+		(#{fromId,jdbcType=CHAR},
+		#{name,jdbcType=VARCHAR},
+		#{itemName,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER},
+		#{dataType,jdbcType=INTEGER},
+		#{dataValue,jdbcType=VARCHAR},
+		#{isItem,jdbcType=BIT},
+		#{itemPrompt,jdbcType=VARCHAR},
+		#{isRequried,jdbcType=BIT})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.shop.model.CustomFormItemDO">
+		<selectKey keyProperty="id" order="AFTER"
+			resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into T_CUSTOM_FORM_ITEM
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="fromId != null">
+				FROM_ID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="itemName != null">
+				ITEM_NAME,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="dataType != null">
+				DATA_TYPE,
+			</if>
+			<if test="dataValue != null">
+				DATA_VALUE,
+			</if>
+			<if test="isItem != null">
+				IS_ITEM,
+			</if>
+			<if test="itemPrompt != null">
+				ITEM_PROMPT,
+			</if>
+			<if test="isRequried != null">
+				IS_REQURIED,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="fromId != null">
+				#{fromId,jdbcType=CHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="itemName != null">
+				#{itemName,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="dataType != null">
+				#{dataType,jdbcType=INTEGER},
+			</if>
+			<if test="dataValue != null">
+				#{dataValue,jdbcType=VARCHAR},
+			</if>
+			<if test="isItem != null">
+				#{isItem,jdbcType=BIT},
+			</if>
+			<if test="itemPrompt != null">
+				#{itemPrompt,jdbcType=VARCHAR},
+			</if>
+			<if test="isRequried != null">
+				#{isRequried,jdbcType=BIT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.shop.model.CustomFormItemDO">
+		update T_CUSTOM_FORM_ITEM
+		<set>
+			<if test="fromId != null">
+				FROM_ID = #{fromId,jdbcType=CHAR},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="itemName != null">
+				ITEM_NAME = #{itemName,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="dataType != null">
+				DATA_TYPE = #{dataType,jdbcType=INTEGER},
+			</if>
+			<if test="dataValue != null">
+				DATA_VALUE = #{dataValue,jdbcType=VARCHAR},
+			</if>
+			<if test="isItem != null">
+				IS_ITEM = #{isItem,jdbcType=BIT},
+			</if>
+			<if test="itemPrompt != null">
+				ITEM_PROMPT = #{itemPrompt,jdbcType=VARCHAR},
+			</if>
+			<if test="isRequried != null">
+				IS_REQURIED = #{isRequried,jdbcType=BIT},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.shop.model.CustomFormItemDO">
+		update T_CUSTOM_FORM_ITEM
+		set FROM_ID =
+		#{fromId,jdbcType=CHAR},
+		NAME = #{name,jdbcType=VARCHAR},
+		ITEM_NAME = #{itemNAME,jdbcType=VARCHAR},
+		TYPE =
+		#{type,jdbcType=INTEGER},dataType=#{dataType,jdbcType=INTEGER},
+		DATA_VALUE = #{dataValue,jdbcType=VARCHAR},
+		IS_ITEM =
+		#{isItem,jdbcType=BIT},
+		ITEM_PROMPT =
+		#{itemPrompt,jdbcType=VARCHAR},
+		IS_REQURIED =
+		#{isRequried,jdbcType=BIT}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+</mapper>

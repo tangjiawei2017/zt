@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.AccountMapper">
+	<select id="findAccountByLoginName" parameterType="string"
+		resultType="com.shop.model.AccountDO">
+		select * from T_ACCOUNT
+		where username=#{username}
+	</select>
+	<update id="updateAccount">
+		update T_ACCOUNT set
+		PASSWORD=#{password},ORIGINAL_PASSWORD=#{originalPassword} where
+		USERNAME=#{account}
+	</update>
+	<select id="checkAdminPwd" resultType="int">
+		select count(*) from
+		T_ACCOUNT where USERNAME=#{username} and
+		PASSWORD=#{password}
+	</select>
+</mapper>

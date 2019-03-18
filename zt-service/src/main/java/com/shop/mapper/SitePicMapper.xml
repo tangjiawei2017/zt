@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.SitePicMapper">
+	<select id="findAllSitePic"
+		resultType="com.shop.model.SitePicDO">
+		select * from T_SITE_PIC
+		order by NUMBER
+	</select>
+	<select id="findSitePicByPath" parameterType="String"
+		resultType="int">
+		select count(*) from T_SITE_PIC where PATH=#{path}
+	</select>
+	<select id="findSitePicById" parameterType="int"
+		resultType="int">
+		select * from T_SITE_PIC where ID=#{id}
+	</select>
+	<insert id="addSitePic" parameterType="com.shop.model.SitePicDO">
+		insert into
+		T_SITE_PIC(PATH,LINK,NUMBER,MPATH) values(#{path},#{link},#{number},#{mpath})
+	</insert>
+	<insert id="delSitePic" parameterType="int">
+		delete from
+		T_SITE_PIC
+		where id=#{id}
+	</insert>
+	<update id="updateSitePic"
+		parameterType="com.shop.model.SitePicDO">
+		update
+		T_SITE_PIC
+		<trim prefix="set" suffixOverrides=",">
+			<if test="path!=null">PATH=#{path},</if>
+			<if test="link!=null">LINK=#{link},</if>
+			<if test="number!=null">NUMBER=#{number},</if>
+		</trim>
+		where ID=#{id}
+	</update>
+</mapper>

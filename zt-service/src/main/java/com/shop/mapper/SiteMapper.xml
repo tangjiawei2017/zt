@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.SiteMapper">
+	<select id="getSiteDO" resultType="com.shop.model.SiteDO">
+		select ID id,SITENAME
+		siteName,LOGO logo,CTIME ctime
+		from T_SITE
+	</select>
+	<select id="getSiteName" resultType="string">
+		select SITENAME from T_SITE
+	</select>
+	<select id="getHotLine" resultType="string">
+		select PHONE from T_SITE
+	</select>
+	<insert id="addSite" parameterType="com.shop.model.SiteDO">
+		insert into
+		T_SITE(SITENAME,LOGO,CTIME)
+		values(#{siteName},#{logo},#{ctime})
+	</insert>
+	<update id="updateSiteDO" parameterType="com.shop.model.SiteDO">
+		update T_SITE
+		<trim prefix="set" suffixOverrides=",">
+			<if test="siteName!=null">SITENAME=#{siteName},</if>
+			<if test="logo!=null">LOGO=#{logo},</if>
+		</trim>
+		where ID=#{id}
+	</update>
+</mapper>

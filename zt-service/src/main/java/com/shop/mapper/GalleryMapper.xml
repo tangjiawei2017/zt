@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.GalleryMapper">
+	<resultMap id="BaseResultMap" type="com.shop.model.GalleryDO">
+		<id column="ID" jdbcType="CHAR" property="id" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="PATH" jdbcType="VARCHAR" property="path" />
+		<result column="CONTENT" jdbcType="VARCHAR" property="content" />
+		<result column="CTIME" property="ctime" />
+		<result column="MODIFY" property="modify" />
+		<result column="MPATH" jdbcType="VARCHAR" property="mpath" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, NAME, PATH,CONTENT,CTIME ctime,MODIFY,MPATH
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_GALLERY
+		where ID = #{id,jdbcType=CHAR}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_GALLERY
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		T_GALLERY
+		where ID = #{id,jdbcType=CHAR}
+	</delete>
+	<insert id="insert" parameterType="com.shop.model.GalleryDO">
+		insert into T_GALLERY (ID,
+		NAME, PATH,CONTENT,CTIME,MODIFY)
+		values (#{id,jdbcType=CHAR},
+		#{name,jdbcType=VARCHAR},
+		#{path,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{ctime},#{modify},#{mpath})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.shop.model.GalleryDO">
+		insert into T_GALLERY
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="path != null">
+				PATH,
+			</if>
+			<if test="content != null">
+				CONTENT,
+			</if>
+			<if test="ctime!=null">
+				CTIME,
+			</if>
+			<if test="modify!=null">
+				MODIFY
+			</if>
+			<if test="mpath!=null">
+				MPATH
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=CHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="path != null">
+				#{path,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime},
+			</if>
+			<if test="modify != null">
+				#{modify},
+			</if>
+			<if test="mpath != null">
+				#{mpath},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.shop.model.GalleryDO">
+		update T_GALLERY
+		<set>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="path != null">
+				PATH = #{path,jdbcType=VARCHAR},
+			</if>
+			<if test="modify != null">
+				MODIFY = #{modify},
+			</if>
+			<if test="content != null">
+				CONTENT = #{content},
+			</if>
+			<if test="mpath != null">
+				MPATH = #{mpath},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=CHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.shop.model.GalleryDO">
+		update T_GALLERY
+		set NAME = #{name,jdbcType=VARCHAR},
+		PATH = #{path,jdbcType=VARCHAR},MODIFY=#{modify},CONTENT=#{content},MPATH=#{mpath}
+		where ID =
+		#{id,jdbcType=CHAR}
+	</update>
+</mapper>

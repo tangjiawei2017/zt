@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.InfoCategoryMapper">
+	<resultMap id="BaseResultMap"
+		type="com.shop.model.InfoCategoryDO">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="PARENTID" jdbcType="INTEGER"
+			property="parentid" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="IMAGE" jdbcType="VARCHAR" property="image" />
+		<result column="CREATED" jdbcType="TIMESTAMP"
+			property="created" />
+		<result column="MODIFIED" jdbcType="TIMESTAMP"
+			property="modified" />
+	</resultMap>
+	<resultMap id="CategoryAndInfoContentMap"
+		type="com.shop.model.InfoCategoryDO">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="PARENTID" jdbcType="INTEGER"
+			property="parentid" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="IMAGE" jdbcType="VARCHAR" property="image" />
+		<result column="CREATED" jdbcType="TIMESTAMP"
+			property="created" />
+		<result column="MODIFIED" jdbcType="TIMESTAMP"
+			property="modified" />
+		<collection property="infoContentList"
+			ofType="com.shop.model.InfoContentDO">
+			<id column="contentId" jdbcType="INTEGER" property="id" />
+			<result column="contentImage" jdbcType="VARCHAR"
+				property="image" />
+			<result column="contentName" jdbcType="VARCHAR"
+				property="name" />
+			<result column="AUTHOR" jdbcType="VARCHAR" property="author" />
+			<result column="SOURCE" jdbcType="VARCHAR" property="source" />
+			<result column="SUMMARY" jdbcType="VARCHAR" property="summary" />
+			<result column="contentCreated" jdbcType="TIMESTAMP"
+				property="created" />
+			<result column="contentModified" jdbcType="TIMESTAMP"
+				property="modified" />
+		</collection>
+	</resultMap>
+	<resultMap type="com.shop.model.InfoCategoryDO"
+		id="categoryAndChildrenMap">
+		<id property="id" column="id" />
+		<result property="parentid" column="PARENTID" />
+		<result property="name" column="NAME" />
+		<result property="image" column="IMAGE" />
+		<collection property="children"
+			javaType="com.shop.model.InfoCategoryDO">
+			<id property="id" column="cid" />
+			<result property="name" column="cname" />
+			<result property="parentid" column="cparentid" />
+		</collection>
+	</resultMap>
+	<resultMap type="com.shop.model.InfoCategoryDO"
+		id="categoryAndParentMap">
+		<id property="id" column="id" />
+		<result property="parentid" column="PARENTID" />
+		<result property="name" column="NAME" />
+		<result property="image" column="IMAGE" />
+		<association property="parent"
+			javaType="com.shop.model.InfoCategoryDO">
+			<id property="id" column="cid" />
+			<result property="name" column="cname" />
+			<result property="parentid" column="cparentid" />
+		</association>
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, PARENTID, NAME, IMAGE, CREATED, MODIFIED
+	</sql>
+	<sql id="selectCategoryAndChildren">
+		select c.ID id ,c.PARENTID parentid, c.NAME name ,c.IMAGE
+		image,
+		cp.ID cid,cp.NAME
+		cname,cp.PARENTID cparentid from
+		T_INFO_CATEGORY c
+		left join
+		T_INFO_CATEGORY cp
+		on c.ID = cp.PARENTID
+	</sql>
+	<sql id="selectCategoryAndParent">
+		select c.ID id ,c.PARENTID parentid, c.NAME name ,c.IMAGE
+		image,
+		cp.ID cid,cp.NAME
+		cname,cp.PARENTID cparentid from
+		T_INFO_CATEGORY c
+		left join
+		T_INFO_CATEGORY cp
+		on c.PARENTID = cp.ID
+	</sql>
+	<select id="findChildCategoryByParentId" parameterType="int"
+		resultMap="CategoryAndInfoContentMap">
+		select c.ID id ,c.PARENTID parentid,
+		c.NAME name ,c.IMAGE
+		image,c.CREATED created,c.MODIFIED modified
+		from
+		T_INFO_CATEGORY c
+		where
+		c.PARENTID=#{id}
+	</select>
+	<select id="findChildCategoryAndContentByParentId"
+		parameterType="int" resultMap="CategoryAndInfoContentMap">
+		select c.ID id ,c.PARENTID parentid,
+		c.NAME name ,c.IMAGE
+		image,c.CREATED created,c.MODIFIED modified,
+		ic.ID
+		contentId,ic.IMAGE contentImage,ic.NAME contentName,ic.AUTHOR author,
+		ic.SOURCE source,ic.SUMMARY summary,ic.CREATED
+		contentCreated,ic.MODIFIED contentModified
+		from
+		T_INFO_CATEGORY c
+		left
+		join
+		T_INFO_CONTENT ic
+		on c.ID = ic.CATEGORY_ID
+		where c.PARENTID=#{id}
+	</select>
+	<select id="findCategoryAndParentById" parameterType="int"
+		resultMap="categoryAndParentMap">
+		<include refid="selectCategoryAndParent"></include>
+		where c.ID=#{id}
+	</select>
+	<select id="findCategoryAndChildrenById"
+		resultMap="categoryAndChildrenMap" parameterType="int">
+		<include refid="selectCategoryAndChildren"></include>
+		where c.ID=#{id}
+	</select>
+	<select id="findAllCategoryAndChildren"
+		resultMap="categoryAndChildrenMap">
+		<include refid="selectCategoryAndChildren"></include>
+	</select>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_INFO_CATEGORY
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectInfoCategoryByName"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_INFO_CATEGORY
+		where NAME = #{name}
+	</select>
+	<select id="selectAllInfoCateogry" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_INFO_CATEGORY
+	</select>
+	<select id="selectAllInfoCategoryExclude" parameterType="int"
+		resultMap="BaseResultMap">
+		select a.ID, a.PARENTID, a.NAME, a.IMAGE, a.CREATED,
+		a.MODIFIED
+		from T_INFO_CATEGORY a left join (select ID, PARENTID,
+		NAME,
+		IMAGE, CREATED, MODIFIED from T_INFO_CATEGORY where
+		id=#{id} or
+		PARENTID=#{id}) as b on a.ID = b.ID where b.ID is NULL
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from T_INFO_CATEGORY
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.shop.model.InfoCategoryDO">
+		<selectKey keyProperty="id" order="AFTER"
+			resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into T_INFO_CATEGORY (PARENTID, NAME, IMAGE,
+		CREATED, MODIFIED)
+		values (#{parentid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{image,jdbcType=VARCHAR},
+		#{created,jdbcType=TIMESTAMP},
+		#{modified,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.shop.model.InfoCategoryDO">
+		<selectKey keyProperty="id" order="AFTER"
+			resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into T_INFO_CATEGORY
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="parentid != null">
+				PARENTID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="image != null">
+				IMAGE,
+			</if>
+			<if test="created != null">
+				CREATED,
+			</if>
+			<if test="modified != null">
+				MODIFIED,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="parentid != null">
+				#{parentid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="image != null">
+				#{image,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				#{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modified != null">
+				#{modified,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.shop.model.InfoCategoryDO">
+		update T_INFO_CATEGORY
+		<set>
+			<if test="parentid != null">
+				PARENTID = #{parentid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="image != null">
+				IMAGE = #{image,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				CREATED = #{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modified != null">
+				MODIFIED = #{modified,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.shop.model.InfoCategoryDO">
+		update T_INFO_CATEGORY
+		set PARENTID =
+		#{parentid,jdbcType=INTEGER},
+		NAME = #{name,jdbcType=VARCHAR},
+		IMAGE =
+		#{image,jdbcType=VARCHAR},
+		CREATED = #{created,jdbcType=TIMESTAMP},
+		MODIFIED = #{modified,jdbcType=TIMESTAMP}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.ProductMapper">
+	<resultMap type="com.shop.model.ProductDO" id="productMap">
+		<id property="id" column="id" />
+		<result property="code" column="code" />
+		<result property="name" column="name" />
+		<result property="categoryid" column="categoryid" />
+		<result property="marketprice" column="marketprice" />
+		<result property="price" column="price" />
+		<result property="brandid" column="brandid" />
+		<result property="sale" column="sale" />
+		<result property="unit" column="unit" />
+		<result property="image" column="image" />
+		<result property="images" column="images" />
+		<result property="stock" column="stock" />
+		<result property="description" column="description" />
+		<result property="created" column="created" />
+		<result property="modified" column="modified" />
+		<result property="ext0" column="ext0" />
+		<result property="ext1" column="ext1" />
+		<result property="ext2" column="ext2" />
+		<result property="ext3" column="ext3" />
+		<result property="ext4" column="ext4" />
+		<result property="ext5" column="ext5" />
+		<result property="ext6" column="ext6" />
+		<result property="ext7" column="ext7" />
+		<result property="ext8" column="ext8" />
+		<result property="ext9" column="ext9" />
+
+		<association property="productCategory"
+			javaType="com.shop.model.ProductCategoryDO">
+			<id property="id" column="pcId" />
+			<result property="name" column="pcname" />
+			<result property="sequence" column="sequence" />
+			<result property="created" column="pcreated" />
+			<result property="modified" column="pcmodified" />
+			<result property="content" column="pcontent" />
+			<result property="image" column="pcimage" />
+			<result property="templateid" column="templateid" />
+		</association>
+		<association property="brand"
+			javaType="com.shop.model.ProductBrandDO">
+			<id property="id" column="pbid" />
+			<result property="name" column="pbname" />
+			<result property="image" column="pbimage" />
+		</association>
+	</resultMap>
+
+	<sql id="selectProduct">
+		select product.*,pc.ID pcId,pc.NAME pcname, pc.SEQUENCE
+		sequence,pc.CREATED pcreated,pc.MODIFIED pcmodified,pc.CONTENT
+		pcontent,pc.IMAGE pcimage,pc.TEMPLATEID templateid,pb.ID pbid,pb.NAME
+		pbname,pb.IMAGE pbimage from
+		T_PRODUCT
+		product left
+		JOIN
+		T_PRODUCT_CATEGORY pc on product.CATEGORYID=pc.ID left JOIN
+		T_PRODUCT_BRAND pb on
+		product.BRANDID = pb.ID
+	</sql>
+	<sql id="selectProductWhere">
+		<where>
+			<if test="search!=null and search!=''">
+				product.name like '%${search}%'
+			</if>
+			<if test="csequence!=null and csequence!='all'">
+				and csequence like '%${csequence}%'
+			</if>
+			<if test="sale!=null and sale!='all'">
+				and sale=#{sale}
+			</if>
+			<if test="brandId!=null and brandId!='all'">
+				and brandId=#{brandId}
+			</if>
+			<if test="categoryId!=null and categoryId!=-1">
+				and CATEGORYID in (select ID from T_PRODUCT_CATEGORY
+				where
+				ID=#{categoryId} or PARENTID=#{categoryId})
+			</if>
+		</where>
+	</sql>
+	<sql id="selectProductWhereByObj">
+		<where>
+			<if test="condition.search!=null and condition.search!=''">
+				product.name like '%${condition.search}%'
+			</if>
+			<if
+				test="condition.csequence!=null and condition.csequence!='all'">
+				and csequence like '%${condition.csequence}%'
+			</if>
+			<if test="condition.sale!=null and condition.sale!='all'">
+				and sale=#{condition.sale}
+			</if>
+			<if test="condition.brandId!=null and condition.brandId!='all'">
+				and brandId=#{condition.brandId}
+			</if>
+			<if test="condition.categoryId!=null and condition.categoryId!=-1">
+				and CATEGORYID in (select ID from T_PRODUCT_CATEGORY
+				where
+				ID=#{condition.categoryId} or PARENTID=#{condition.categoryId})
+			</if>
+		</where>
+	</sql>
+	<select id="findProductDoById" resultMap="productMap"
+		parameterType="int">
+		<include refid="selectProduct"></include>
+		where product.id=#{id}
+	</select>
+	<select id="countProductByCategoryId" resultType="int">
+		select count(*)
+		from T_PRODUCT where CATEGORYID=#{id}
+	</select>
+	<select id="countProduct" resultType="int"
+		parameterType="com.shop.vo.Condition">
+		select count(*) from T_PRODUCT product
+		<include refid="selectProductWhere"></include>
+	</select>
+	<select id="findProductsByCondition" resultMap="productMap">
+		<include refid="selectProduct"></include>
+		<include refid="selectProductWhereByObj"></include>
+		order by CREATED desc
+		limit #{start},#{limit}
+	</select>
+	<select id="findSimpleProducts"
+		resultType="com.shop.model.ProductDO">
+		select ID id,NAME
+		name from T_PRODUCT
+	</select>
+	<select id="findProductByName" parameterType="string">
+		<include refid="selectProduct"></include>
+		having name=#{name}
+	</select>
+	<select id="findProductByCode" parameterType="String"
+		resultType="com.shop.model.ProductDO">
+		select * from T_PRODUCT where CODE=#{code}
+	</select>
+	<select id="findProductByExtAttr"
+		resultType="com.shop.model.ProductDO">
+		select * from T_PRODUCT
+		<where>
+			<if test="name=='ext0'">
+				ext0 = #{value}
+			</if>
+			<if test="name=='ext1'">
+				ext1 = #{value}
+			</if>
+			<if test="name=='ext2'">
+				ext2 = #{value}
+			</if>
+			<if test="name=='ext3'">
+				ext3 = #{value}
+			</if>
+			<if test="name=='ext4'">
+				ext4 = #{value}
+			</if>
+			<if test="name=='ext5'">
+				ext5 = #{value}
+			</if>
+			<if test="name=='ext6'">
+				ext6 = #{value}
+			</if>
+			<if test="name=='ext7'">
+				ext7 = #{value}
+			</if>
+			<if test="name=='ext8'">
+				ext8 = #{value}
+			</if>
+			<if test="name=='ext9'">
+				ext9 = #{value}
+			</if>
+		</where>
+	</select>
+	<insert id="addProduct" parameterType="com.shop.model.ProductDO">
+		insert into T_PRODUCT
+		(CODE,NAME,CATEGORYID,BRANDID,MARKETPRICE,PRICE,SALE,UNIT,IMAGE,IMAGES,STOCK,DESCRIPTION,CREATED,MODIFIED,EXT0,EXT1,EXT2,EXT3,EXT4,EXT5,EXT6,EXT7,EXT8,EXT9)
+		values(#{code},#{name},#{categoryid},#{brandid},#{marketprice},#{price},#{sale},#{unit},#{image},#{images},#{stock},#{description},#{created},#{modified},#{ext0},#{ext1},#{ext2},#{ext3},#{ext4},#{ext5},#{ext6},#{ext7},#{ext8},#{ext9})
+	</insert>
+	<update id="updateProduct"
+		parameterType="com.shop.model.ProductDO">
+		update T_PRODUCT
+		<set>
+			<if test="code != null">
+				CODE = #{code},
+			</if>
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+			<if test="categoryid != null">
+				CATEGORYID = #{categoryid},
+			</if>
+			<if test="brandid != null">
+				BRANDID = #{brandid},
+			</if>
+			<if test="marketprice != null">
+				MARKETPRICE = #{marketprice},
+			</if>
+			<if test="price != null">
+				PRICE = #{price},
+			</if>
+			<if test="sale != null">
+				SALE = #{sale},
+			</if>
+			<if test="image != null">
+				IMAGE = #{image},
+			</if>
+			<if test="images != null">
+				IMAGES = #{images},
+			</if>
+			<if test="stock != null">
+				STOCK = #{stock},
+			</if>
+			<if test="description != null">
+				DESCRIPTION = #{description},
+			</if>
+			<if test="created != null">
+				CREATED = #{created},
+			</if>
+			<if test="modified != null">
+				MODIFIED = #{modified},
+			</if>
+			<if test="ext0 != null">
+				EXT0 = #{ext0},
+			</if>
+			<if test="ext1 != null">
+				EXT1 = #{ext1},
+			</if>
+			<if test="ext2 != null">
+				EXT2 = #{ext2},
+			</if>
+			<if test="ext3 != null">
+				EXT3 = #{ext3},
+			</if>
+			<if test="ext4 != null">
+				EXT4 = #{ext4},
+			</if>
+			<if test="ext5 != null">
+				EXT5 = #{ext5},
+			</if>
+			<if test="ext6 != null">
+				EXT6 = #{ext6},
+			</if>
+			<if test="ext7 != null">
+				EXT7 = #{ext7},
+			</if>
+			<if test="ext8 != null">
+				EXT8 = #{ext8},
+			</if>
+			<if test="ext9 != null">
+				ext9 = #{ext9},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateProductStatus">
+		update T_PRODUCT set SALE=#{sale} where ID=#{id}
+	</update>
+	<update id="updateProductsSaleOn">
+		update T_PRODUCT set SALE=1 where ID in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	<update id="updateProductsPutOff">
+		update T_PRODUCT set SALE=0 where ID in
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	<delete id="delProduct" parameterType="int">
+		delete from T_PRODUCT
+		where ID=#{id}
+	</delete>
+</mapper>

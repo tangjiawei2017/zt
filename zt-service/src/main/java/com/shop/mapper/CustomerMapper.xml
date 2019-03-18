@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.CustomerMapper">
+	<resultMap type="com.shop.model.CustomerDO"
+		id="customerAndAddressMap">
+		<id property="id" column="id" />
+		<result property="account" column="account" />
+		<result property="password" column="password" />
+		<result property="name" column="name" />
+		<result property="sex" column="sex" />
+		<result property="imagePath" column="imagePath" />
+		<result property="cellphone" column="cellphone" />
+		<result property="email" column="email" />
+		<result property="regtime" column="regtime" />
+		<result property="logintime" column="logintime" />
+		<result property="loginCount" column="loginCount" />
+		<result property="status" column="status" />
+		<result property="source" column="source" />
+	</resultMap>
+	<sql id="selectCustomer">
+		select ID id,ACCOUNT account,NAME name,SEX sex,IMAGE_PATH
+		imagePath,CELLPHONE cellphone,EMAIL email,REGTIME regtime,STATUS
+		status,SOURCE source,LOGINTIME logintime,LOGINCOUNT loginCount from
+		T_CUSTOMER
+	</sql>
+	<sql id="selectCustomerCondition">
+		<if test="type=='account' and search!=null and search!=''">
+			and account like '%${search}%'
+		</if>
+		<if test="type=='name' and search!=null and search!=''">
+			and name like '%${search}%'
+		</if>
+		<if test="type=='phone' and search!=null and search!=''">
+			and cellphone like '%${search}%'
+		</if>
+	</sql>
+	<select id="findCustomerByAccount"
+		resultType="com.shop.model.CustomerDO" parameterType="string">
+		select
+		ID,ACCOUNT,PASSWORD,NAME,SEX,IMAGE_PATH
+		imagePath,CELLPHONE,EMAIL
+		,REGTIME,STATUS,LOGINTIME,LOGINCOUNT
+		loginCount from
+		T_CUSTOMER
+		where
+		ACCOUNT=#{account}
+	</select>
+	<select id="findCustomerByPhone"
+		resultType="com.shop.model.CustomerDO" parameterType="string">
+		select
+		ID,ACCOUNT,PASSWORD,NAME,SEX,IMAGE_PATH
+		imagePath,CELLPHONE,EMAIL
+		,REGTIME,STATUS,LOGINTIME,LOGINCOUNT
+		loginCount from
+		T_CUSTOMER
+		where
+		CELLPHONE=#{phone}
+	</select>
+	<select id="findCustomerByAccountOrPhone"
+		resultType="com.shop.model.CustomerDO" parameterType="string">
+		select
+		ID,ACCOUNT,PASSWORD,NAME,SEX,IMAGE_PATH
+		imagePath,CELLPHONE,EMAIL
+		,REGTIME,STATUS,LOGINTIME,LOGINCOUNT
+		loginCount from
+		T_CUSTOMER
+		where
+		(ACCOUNT=#{account} or
+		CELLPHONE=#{account})
+	</select>
+	<select id="findAllCustomer"
+		resultType="com.shop.model.CustomerDO">
+		select
+		ID,ACCOUNT,PASSWORD,NAME,SEX,IMAGE_PATH
+		imagePath,CELLPHONE,EMAIL
+		,REGTIME,STATUS,LOGINTIME,LOGINCOUNT
+		loginCount from
+		T_CUSTOMER
+	</select>
+	<select id="docheckLoginByAcccountAndPwd"
+		resultType="com.shop.model.CustomerDO">
+		select *
+		from T_CUSTOMER where (ACCOUNT=#{account} or
+		CELLPHONE=#{account})
+		and
+		PASSWORD=#{password}
+	</select>
+	<select id="countCustomer" resultType="int"
+		parameterType="com.shop.vo.CustomerCondition">
+		select count(*) from (
+		<include refid="selectCustomer"></include>
+		having 1=1
+		<include refid="selectCustomerCondition"></include>
+		) temp
+	</select>
+	<select id="findCustomersByCondition"
+		resultType="com.shop.model.CustomerDO">
+		<include refid="selectCustomer"></include>
+		having 1=1
+		<if
+			test="condition.type=='account' and condition.search!=null and condition.search!=''">
+			and account like '%${condition.search}%'
+		</if>
+		<if
+			test="condition.type=='name' and condition.search!=null and condition.search!=''">
+			and name like '%${condition.search}%'
+		</if>
+		<if
+			test="condition.type=='phone' and condition.search!=null and condition.search!=''">
+			and cellphone like '%${condition.search}%'
+		</if>
+		order by REGTIME desc
+		limit #{start},#{limit}
+	</select>
+	<select id="findCustomerById"
+		resultType="com.shop.model.CustomerDO" parameterType="int">
+		<include refid="selectCustomer"></include>
+		where id=#{id}
+	</select>
+
+	<select id="checkCustomerAccountExist" resultType="int">
+		select
+		count(*) from T_CUSTOMER where ACCOUNT=#{account}
+	</select>
+	<select id="checkCustomerPhoneExist" resultType="int">
+		select
+		count(*)
+		from T_CUSTOMER where CELLPHONE=#{phone}
+	</select>
+	<insert id="addCustomer"
+		parameterType="com.shop.model.CustomerDO">
+		insert into
+		T_CUSTOMER(ID,ACCOUNT,PASSWORD,NAME,SEX,IMAGE_PATH,CELLPHONE,EMAIL,REGTIME,STATUS,SOURCE,LOGINTIME,LOGINCOUNT)
+		values(#{id},#{account},#{password},#{name},#{sex},#{imagePath},#{cellphone},#{email},#{regtime},#{status},#{source},#{logintime},#{loginCount})
+	</insert>
+	<update id="updateCustomerStatus">
+		update T_CUSTOMER set status=#{status} where id=#{id}
+	</update>
+	<update id="updateCustomerIconById">
+		update T_CUSTOMER set IMAGE_PATH=#{imgpath} where
+		id=#{id}
+	</update>
+	<update id="updateCustomer"
+		parameterType="com.shop.model.CustomerDO">
+		update T_CUSTOMER
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name!=null">NAME=#{name},</if>
+			<if test="password!=null">PASSWORD=#{password},</if>
+			<if test="cellphone!=null">CELLPHONE=#{cellphone},</if>
+			<if test="sex!=null">SEX=#{sex},</if>
+			<if test="logintime!=null">LOGINTIME=#{logintime},</if>
+			<if test="loginCount!=null">LOGINCOUNT=#{loginCount},</if>
+			<if test="imagePath!=null">IMAGE_PATH=#{imagePath}</if>
+		</trim>
+		where id=#{id}
+	</update>
+	<delete id="delCustomer" parameterType="int">
+		delete from T_CUSTOMER
+		where ID=#{id}
+	</delete>
+</mapper>

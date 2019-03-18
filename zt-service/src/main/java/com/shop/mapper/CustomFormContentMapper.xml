@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.CustomFormContentMapper">
+	<resultMap id="BaseResultMap"
+		type="com.shop.model.CustomFormContentDO">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="FORM_ID" jdbcType="CHAR" property="formId" />
+		<result column="STATUS" jdbcType="TINYINT" property="status" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+		<result column="EXT1" jdbcType="VARCHAR" property="ext1" />
+		<result column="EXT2" jdbcType="VARCHAR" property="ext2" />
+		<result column="EXT3" jdbcType="VARCHAR" property="ext3" />
+		<result column="EXT4" jdbcType="VARCHAR" property="ext4" />
+		<result column="EXT5" jdbcType="VARCHAR" property="ext5" />
+		<result column="EXT6" jdbcType="VARCHAR" property="ext6" />
+		<result column="EXT7" jdbcType="VARCHAR" property="ext7" />
+		<result column="EXT8" jdbcType="VARCHAR" property="ext8" />
+		<result column="EXT9" jdbcType="VARCHAR" property="ext9" />
+		<result column="EXT10" jdbcType="VARCHAR" property="ext10" />
+		<result column="EXT11" jdbcType="VARCHAR" property="ext11" />
+		<result column="EXT12" jdbcType="VARCHAR" property="ext12" />
+		<result column="EXT13" jdbcType="VARCHAR" property="ext13" />
+		<result column="EXT14" jdbcType="VARCHAR" property="ext14" />
+		<result column="EXT15" jdbcType="VARCHAR" property="ext15" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.shop.model.CustomFormContentDO">
+		<result column="RESULT" jdbcType="LONGVARCHAR"
+			property="result" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, FORM_ID, STATUS, CTIME, EXT1, EXT2, EXT3, EXT4, EXT5,
+		EXT6, EXT7,
+		EXT8, EXT9,
+		EXT10, EXT11, EXT12, EXT13, EXT14, EXT15
+	</sql>
+	<sql id="customFormConditionWhere">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="formId!=null and formId!='' ">
+				and FORM_ID = #{formId}
+			</if>
+			<if test="status == 0 || status ==1">
+				and STATUS = #{status}
+			</if>
+			<if test="startTime!=null  and endTime!=null">
+				and CTIME between #{startTime} and #{endTime}
+			</if>
+		</trim>
+	</sql>
+	<sql id="Blob_Column_List">
+		RESULT
+	</sql>
+	<sql id="customFormConditionByObject">
+		<trim prefix="where" prefixOverrides="and">
+			<if test="condition.formId!=null and condition.formId!='' ">
+				and FORM_ID = #{condition.formId}
+			</if>
+			<if test="condition.status == 0 || condition.status ==1">
+				and STATUS = #{condition.status}
+			</if>
+			<if test="condition.startTime!=null  and condition.endTime!=null">
+				and CTIME between #{condition.startTime} and
+				#{condition.endTime}
+			</if>
+		</trim>
+	</sql>
+	<select id="selectByFromId" parameterType="java.lang.String"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from T_CUSTOM_FORM_CONTENT
+		where FORM_ID = #{formId}
+	</select>
+	<select id="countCustomFormContent"
+		parameterType="com.shop.vo.CustomFormCondition" resultType="int">
+		select count(*) from T_CUSTOM_FORM_CONTENT
+		<include refid="customFormConditionWhere"></include>
+	</select>
+
+	<select id="selectAll" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from T_CUSTOM_FORM_CONTENT
+	</select>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from T_CUSTOM_FORM_CONTENT
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="findCustomFormContentByCondition"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from T_CUSTOM_FORM_CONTENT
+		<include refid="customFormConditionByObject"></include>
+		order by CTIME desc
+		limit #{start},#{limit}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from T_CUSTOM_FORM_CONTENT
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.shop.model.CustomFormContentDO">
+		<selectKey keyProperty="id" order="AFTER"
+			resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into T_CUSTOM_FORM_CONTENT (FORM_ID, STATUS, CTIME,
+		EXT1, EXT2,
+		EXT3, EXT4,
+		EXT5, EXT6, EXT7, EXT8,
+		EXT9, EXT10, EXT11,
+		EXT12, EXT13,
+		EXT14,
+		EXT15, RESULT)
+		values (#{formId,jdbcType=CHAR},
+		#{status,jdbcType=TINYINT},
+		#{ctime,jdbcType=TIMESTAMP},
+		#{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR},
+		#{ext3,jdbcType=VARCHAR},
+		#{ext4,jdbcType=VARCHAR},
+		#{ext5,jdbcType=VARCHAR}, #{ext6,jdbcType=VARCHAR},
+		#{ext7,jdbcType=VARCHAR},
+		#{ext8,jdbcType=VARCHAR},
+		#{ext9,jdbcType=VARCHAR}, #{ext10,jdbcType=VARCHAR},
+		#{ext11,jdbcType=VARCHAR},
+		#{ext12,jdbcType=VARCHAR},
+		#{ext13,jdbcType=VARCHAR},
+		#{ext14,jdbcType=VARCHAR},
+		#{ext15,jdbcType=VARCHAR}, #{result,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.shop.model.CustomFormContentDO">
+		<selectKey keyProperty="id" order="AFTER"
+			resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into T_CUSTOM_FORM_CONTENT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="formId != null">
+				FORM_ID,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="ctime != null">
+				CTIME,
+			</if>
+			<if test="ext1 != null">
+				EXT1,
+			</if>
+			<if test="ext2 != null">
+				EXT2,
+			</if>
+			<if test="ext3 != null">
+				EXT3,
+			</if>
+			<if test="ext4 != null">
+				EXT4,
+			</if>
+			<if test="ext5 != null">
+				EXT5,
+			</if>
+			<if test="ext6 != null">
+				EXT6,
+			</if>
+			<if test="ext7 != null">
+				EXT7,
+			</if>
+			<if test="ext8 != null">
+				EXT8,
+			</if>
+			<if test="ext9 != null">
+				EXT9,
+			</if>
+			<if test="ext10 != null">
+				EXT10,
+			</if>
+			<if test="ext11 != null">
+				EXT11,
+			</if>
+			<if test="ext12 != null">
+				EXT12,
+			</if>
+			<if test="ext13 != null">
+				EXT13,
+			</if>
+			<if test="ext14 != null">
+				EXT14,
+			</if>
+			<if test="ext15 != null">
+				EXT15,
+			</if>
+			<if test="result != null">
+				RESULT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="formId != null">
+				#{formId,jdbcType=CHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="ext1 != null">
+				#{ext1,jdbcType=VARCHAR},
+			</if>
+			<if test="ext2 != null">
+				#{ext2,jdbcType=VARCHAR},
+			</if>
+			<if test="ext3 != null">
+				#{ext3,jdbcType=VARCHAR},
+			</if>
+			<if test="ext4 != null">
+				#{ext4,jdbcType=VARCHAR},
+			</if>
+			<if test="ext5 != null">
+				#{ext5,jdbcType=VARCHAR},
+			</if>
+			<if test="ext6 != null">
+				#{ext6,jdbcType=VARCHAR},
+			</if>
+			<if test="ext7 != null">
+				#{ext7,jdbcType=VARCHAR},
+			</if>
+			<if test="ext8 != null">
+				#{ext8,jdbcType=VARCHAR},
+			</if>
+			<if test="ext9 != null">
+				#{ext9,jdbcType=VARCHAR},
+			</if>
+			<if test="ext10 != null">
+				#{ext10,jdbcType=VARCHAR},
+			</if>
+			<if test="ext11 != null">
+				#{ext11,jdbcType=VARCHAR},
+			</if>
+			<if test="ext12 != null">
+				#{ext12,jdbcType=VARCHAR},
+			</if>
+			<if test="ext13 != null">
+				#{ext13,jdbcType=VARCHAR},
+			</if>
+			<if test="ext14 != null">
+				#{ext14,jdbcType=VARCHAR},
+			</if>
+			<if test="ext15 != null">
+				#{ext15,jdbcType=VARCHAR},
+			</if>
+			<if test="result != null">
+				#{result,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.shop.model.CustomFormContentDO">
+		update T_CUSTOM_FORM_CONTENT
+		<set>
+			<if test="formId != null">
+				FORM_ID = #{formId,jdbcType=CHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="ctime != null">
+				CTIME = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="ext1 != null">
+				EXT1 = #{ext1,jdbcType=VARCHAR},
+			</if>
+			<if test="ext2 != null">
+				EXT2 = #{ext2,jdbcType=VARCHAR},
+			</if>
+			<if test="ext3 != null">
+				EXT3 = #{ext3,jdbcType=VARCHAR},
+			</if>
+			<if test="ext4 != null">
+				EXT4 = #{ext4,jdbcType=VARCHAR},
+			</if>
+			<if test="ext5 != null">
+				EXT5 = #{ext5,jdbcType=VARCHAR},
+			</if>
+			<if test="ext6 != null">
+				EXT6 = #{ext6,jdbcType=VARCHAR},
+			</if>
+			<if test="ext7 != null">
+				EXT7 = #{ext7,jdbcType=VARCHAR},
+			</if>
+			<if test="ext8 != null">
+				EXT8 = #{ext8,jdbcType=VARCHAR},
+			</if>
+			<if test="ext9 != null">
+				EXT9 = #{ext9,jdbcType=VARCHAR},
+			</if>
+			<if test="ext10 != null">
+				EXT10 = #{ext10,jdbcType=VARCHAR},
+			</if>
+			<if test="ext11 != null">
+				EXT11 = #{ext11,jdbcType=VARCHAR},
+			</if>
+			<if test="ext12 != null">
+				EXT12 = #{ext12,jdbcType=VARCHAR},
+			</if>
+			<if test="ext13 != null">
+				EXT13 = #{ext13,jdbcType=VARCHAR},
+			</if>
+			<if test="ext14 != null">
+				EXT14 = #{ext14,jdbcType=VARCHAR},
+			</if>
+			<if test="ext15 != null">
+				EXT15 = #{ext15,jdbcType=VARCHAR},
+			</if>
+			<if test="result != null">
+				RESULT = #{result,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="com.shop.model.CustomFormContentDO">
+		update T_CUSTOM_FORM_CONTENT
+		set FORM_ID =
+		#{formId,jdbcType=CHAR},
+		STATUS = #{status,jdbcType=TINYINT},
+		CTIME =
+		#{ctime,jdbcType=TIMESTAMP},
+		EXT1 = #{ext1,jdbcType=VARCHAR},
+		EXT2 =
+		#{ext2,jdbcType=VARCHAR},
+		EXT3 = #{ext3,jdbcType=VARCHAR},
+		EXT4 =
+		#{ext4,jdbcType=VARCHAR},
+		EXT5 = #{ext5,jdbcType=VARCHAR},
+		EXT6 =
+		#{ext6,jdbcType=VARCHAR},
+		EXT7 = #{ext7,jdbcType=VARCHAR},
+		EXT8 =
+		#{ext8,jdbcType=VARCHAR},
+		EXT9 = #{ext9,jdbcType=VARCHAR},
+		EXT10 =
+		#{ext10,jdbcType=VARCHAR},
+		EXT11 = #{ext11,jdbcType=VARCHAR},
+		EXT12 =
+		#{ext12,jdbcType=VARCHAR},
+		EXT13 = #{ext13,jdbcType=VARCHAR},
+		EXT14 =
+		#{ext14,jdbcType=VARCHAR},
+		EXT15 = #{ext15,jdbcType=VARCHAR},
+		RESULT =
+		#{result,jdbcType=LONGVARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.shop.model.CustomFormContentDO">
+		update T_CUSTOM_FORM_CONTENT
+		set FORM_ID =
+		#{formId,jdbcType=CHAR},
+		STATUS = #{status,jdbcType=TINYINT},
+		CTIME =
+		#{ctime,jdbcType=TIMESTAMP},
+		EXT1 = #{ext1,jdbcType=VARCHAR},
+		EXT2 =
+		#{ext2,jdbcType=VARCHAR},
+		EXT3 = #{ext3,jdbcType=VARCHAR},
+		EXT4 =
+		#{ext4,jdbcType=VARCHAR},
+		EXT5 = #{ext5,jdbcType=VARCHAR},
+		EXT6 =
+		#{ext6,jdbcType=VARCHAR},
+		EXT7 = #{ext7,jdbcType=VARCHAR},
+		EXT8 =
+		#{ext8,jdbcType=VARCHAR},
+		EXT9 = #{ext9,jdbcType=VARCHAR},
+		EXT10 =
+		#{ext10,jdbcType=VARCHAR},
+		EXT11 = #{ext11,jdbcType=VARCHAR},
+		EXT12 =
+		#{ext12,jdbcType=VARCHAR},
+		EXT13 = #{ext13,jdbcType=VARCHAR},
+		EXT14 =
+		#{ext14,jdbcType=VARCHAR},
+		EXT15 = #{ext15,jdbcType=VARCHAR}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+</mapper>

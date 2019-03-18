@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.CustomFormMapper">
+	<resultMap id="BaseResultMap"
+		type="com.shop.model.CustomFormDO">
+		<id column="ID" jdbcType="CHAR" property="id" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+	</resultMap>
+	<resultMap id="CustomFormAndItemResultMap"
+		type="com.shop.model.CustomFormDO">
+		<id column="ID" jdbcType="CHAR" property="id" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="CTIME" jdbcType="TIMESTAMP" property="ctime" />
+		<collection property="itemList"
+			ofType="com.shop.model.CustomFormItemDO">
+			<id property="id" column="CID" />
+			<result column="FROM_ID" jdbcType="CHAR" property="fromId" />
+			<result column="CNAME" jdbcType="VARCHAR" property="name" />
+			<result column="ITEM_NAME" jdbcType="VARCHAR" property="itemName" />
+			<result column="TYPE" jdbcType="INTEGER" property="type" />
+			<result column="DATA_TYPE" jdbcType="INTEGER"
+				property="dataType" />
+			<result column="DATA_VALUE" jdbcType="VARCHAR"
+				property="dataValue" />
+			<result column="IS_ITEM" jdbcType="BIT" property="isItem" />
+			<result column="ITEM_PROMPT" jdbcType="VARCHAR"
+				property="itemPrompt" />
+			<result column="IS_REQURIED" jdbcType="BIT"
+				property="isRequried" />
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, NAME, CTIME
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_CUSTOM_FORM
+		where ID = #{id,jdbcType=CHAR}
+	</select>
+	<select id="selectCustomFormAndItemByPrimaryKey"
+		parameterType="java.lang.String"
+		resultMap="CustomFormAndItemResultMap">
+		select c.ID,c.NAME,CTIME,ci.ID CID,ci.FROM_ID,ci.NAME
+		CNAME,ci.ITEM_NAME
+		,ci.TYPE
+		type,ci.DATA_TYPE,ci.DATA_VALUE,ci.IS_ITEM,ci.ITEM_PROMPT,ci.IS_REQURIED
+		from
+		T_CUSTOM_FORM c left join T_CUSTOM_FORM_ITEM ci on c.ID =
+		ci.FROM_ID
+		where c.ID=#{id}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_CUSTOM_FORM
+	</select>
+	<select id="countAll" resultType="int">
+		select count(*) from
+		T_CUSTOM_FORM
+	</select>
+	<select id="selectCustomFormPage" resultMap="BaseResultMap">
+		select * from
+		T_CUSTOM_FORM
+		limit #{start},#{limit}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		T_CUSTOM_FORM
+		where ID = #{id,jdbcType=CHAR}
+	</delete>
+	<insert id="insert" parameterType="com.shop.model.CustomFormDO">
+		insert into T_CUSTOM_FORM (ID,
+		NAME, CTIME
+		)
+		values (#{id,jdbcType=CHAR}, #{name,jdbcType=VARCHAR},
+		#{ctime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.shop.model.CustomFormDO">
+		insert into T_CUSTOM_FORM
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="ctime != null">
+				CTIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=CHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.shop.model.CustomFormDO">
+		update T_CUSTOM_FORM
+		<set>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				CTIME = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=CHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.shop.model.CustomFormDO">
+		update T_CUSTOM_FORM
+		set NAME = #{name,jdbcType=VARCHAR},
+		CTIME = #{ctime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=CHAR}
+	</update>
+</mapper>

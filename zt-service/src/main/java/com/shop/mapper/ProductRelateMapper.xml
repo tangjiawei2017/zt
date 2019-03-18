@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.ProductRelateMapper">
+	<resultMap id="BaseResultMap"
+		type="com.shop.model.ProductRelateDO">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="PRODUCT_ID" jdbcType="INTEGER"
+			property="productId" />
+		<result column="RElATE_ID" jdbcType="INTEGER"
+			property="relateId" />
+	</resultMap>
+	<resultMap id="ProductRelateMap"
+		type="com.shop.model.ProductRelateDO">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="PRODUCT_ID" jdbcType="INTEGER"
+			property="productId" />
+		<result column="RElATE_ID" jdbcType="INTEGER"
+			property="relateId" />
+		<collection property="relateProduct"
+			ofType="com.shop.model.ProductDO">
+			<id property="id" column="pid" />
+			<result property="code" column="code" />
+			<result property="name" column="name" />
+			<result property="categoryid" column="categoryid" />
+			<result property="marketprice" column="marketprice" />
+			<result property="brandid" column="brandid" />
+			<result property="price" column="price" />
+			<result property="sale" column="sale" />
+			<result property="unit" column="unit" />
+			<result property="image" column="image" />
+			<result property="images" column="images" />
+			<result property="stock" column="stock" />
+			<result property="description" column="description" />
+			<result property="created" column="created" />
+			<result property="modified" column="modified" />
+			<result property="ext0" column="ext0" />
+			<result property="ext1" column="ext1" />
+			<result property="ext2" column="ext2" />
+			<result property="ext3" column="ext3" />
+			<result property="ext4" column="ext4" />
+			<result property="ext5" column="ext5" />
+			<result property="ext6" column="ext6" />
+			<result property="ext7" column="ext7" />
+			<result property="ext8" column="ext8" />
+			<result property="ext9" column="ext9" />
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, PRODUCT_ID, RElATE_ID
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_PRODUCT_RELATED
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectRelateProductByPid" parameterType="int"
+		resultMap="ProductRelateMap">
+		select r.ID, r.PRODUCT_ID, r.RElATE_ID,p.ID pid,p.CODE
+		code,p.NAME
+		name,p.marketprice,p.PRICE
+		price,p.STOCK stock,p.SALE
+		sale ,
+		p.UNIT unit,p.IMAGE image,p.IMAGES
+		images,p.DESCRIPTION description,p.CREATED
+		created,p.MODIFIED
+		modified,p.EXT0 ext0,p.EXT1 ext1,p.EXT2
+		ext2,p.EXT3
+		ext3,p.EXT4
+		ext4,p.EXT5 ext5,p.EXT6 ext6,p.EXT7 ext7,p.EXT8
+		ext8,p.EXT9
+		ext9 from T_PRODUCT_RELATED r left join T_PRODUCT p on r.RElATE_ID =
+		p.ID
+		where r.PRODUCT_ID =#{id}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from T_PRODUCT_RELATED
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteProductRelateByPid"
+		parameterType="java.lang.Integer">
+		delete from T_PRODUCT_RELATED
+		where PRODUCT_ID=#{id}
+	</delete>
+	<delete id="deleteProductRelate"
+		parameterType="java.lang.Integer">
+		delete from T_PRODUCT_RELATED where PRODUCT_ID=#{id} or
+		RElATE_ID=#{id}
+	</delete>
+	<insert id="insert"
+		parameterType="com.shop.model.ProductRelateDO">
+		<selectKey keyProperty="id" order="AFTER"
+			resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into T_PRODUCT_RELATED (PRODUCT_ID, RElATE_ID)
+		values
+		(#{productId,jdbcType=INTEGER}, #{relateId,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.shop.model.ProductRelateDO">
+		<selectKey keyProperty="id" order="AFTER"
+			resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into T_PRODUCT_RELATED
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productId != null">
+				PRODUCT_ID,
+			</if>
+			<if test="relateId != null">
+				RElATE_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productId != null">
+				#{productId,jdbcType=INTEGER},
+			</if>
+			<if test="relateId != null">
+				#{relateId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.shop.model.ProductRelateDO">
+		update T_PRODUCT_RELATED
+		<set>
+			<if test="productId != null">
+				PRODUCT_ID = #{productId,jdbcType=INTEGER},
+			</if>
+			<if test="relateId != null">
+				RElATE_ID = #{relateId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.shop.model.ProductRelateDO">
+		update T_PRODUCT_RELATED
+		set PRODUCT_ID =
+		#{productId,jdbcType=INTEGER},
+		RElATE_ID = #{relateId,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

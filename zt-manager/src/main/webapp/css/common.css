@@ -1,0 +1,293 @@
+@CHARSET "utf-8";
+
+body {
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+}
+
+html, body {
+	height: 100%;
+}
+
+img {
+	border: none;
+}
+
+* {
+	font-family: '微软雅黑';
+}
+
+a {
+	text-decoration: none;
+}
+
+.container {
+	width: 100%;
+	height: auto;
+	margin: 0;
+	padding: 0;
+}
+
+.main-panel-head {
+	background-color: #ececec;
+	border-bottom: 1px solid #d4d4d4;
+	height: 40px;
+	position: relative;
+	width: 100%;
+	z-index: 4;
+	border-bottom: 1px solid #d4d4d4;
+}
+
+.main-panel-head .tilte {
+	width: 120px;
+	float: left;
+	text-align: center;
+	height: 40px;
+	line-height: 40px;
+	font-weight: bold;
+}
+.main-panel-head .shop-category {
+    width: 120px;
+    float: left;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    font-weight: bold;
+    marign-left:10px;
+}
+.main-panel-head .search {
+	width: 300px;
+	height: 40px;
+	line-height: 40px;
+	float: right;
+}
+
+.main-panel-head .customer-search {
+	width: 400px;
+	height: 40px;
+	line-height: 40px;
+	float: right;
+}
+
+.main-panel-head .customer-search select {
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+}
+
+/** 常见表单元素样式定义  **/
+.shop-search-input {
+	height: 32px;
+	line-height: 32px;
+	border: 1px solid #e6e6e6;
+	background-color: #fff;
+	border-radius: 2px;
+	padding-left: 5px;
+}
+
+.shop-search-input:hover {
+	border-color: #D2D2D2 !important;
+}
+
+.shop-sarch-btn {
+	display: inline-block;
+	height: 32px;
+	line-height: 32px;
+	padding: 0 18px;
+	background-color: #009688;
+	color: #fff;
+	white-space: nowrap;
+	text-align: center;
+	border: none;
+	border-radius: 2px;
+	cursor: pointer;
+	margin-left: 3px;
+	outline: none;
+}
+
+.shop-operator-btn {
+	background-color: #eeeeee !important;
+	font-size: 16px;
+}
+
+.shop-sarch-btn:hover {
+	background-color: #33ab9f !important;
+}
+
+.main-panel-filter {
+	width: 100%;
+	background-color: #e4e4e4;
+	z-index: 3;
+	height: auto;
+}
+
+.condition {
+	width: 100%;
+	padding-left: 20px;
+	line-height: 35px;
+}
+
+.condition .content {
+	width: 50px;
+	padding: 5px 8px 5px 8px;
+}
+
+.condition .content a {
+	color: #6f6ffd;
+}
+
+.main-panel-btn {
+	background: #f7f7f8 url(../images/panel-head1.png) 0px 0px repeat-x;
+	border-bottom: 1px solid #d4d4d4;
+	border-top: 1px solid #d0d0d0;
+	padding: 5px 20px 3px 20px;
+	position: relative;
+	z-index: 2;
+	min-height: 27px;
+}
+
+.main-panel-btn .shop-sarch-btn {
+	margin-right: 30px;
+}
+/**弹窗提示自定义样式**/
+div.success-class {
+	background-color: #e5f8d3 !important;
+	min-width: 200px !important;
+	min-height: 70px !important;
+	border-width: 2px !important;
+}
+
+div.success-class .layui-layer-content {
+	font-size: 16px !important;
+	color: #70a357 !important;
+	text-align: center !important;
+}
+
+/**弹窗提示自定义样式**/
+div.error-class {
+	background-color: #f2cacb !important;
+	min-width: 200px !important;
+	min-height: 70px !important;
+	border-width: 2px !important;
+	min-width: 200px !important;
+}
+
+div.success-class .layui-layer-content {
+	font-size: 16px !important;
+	color: #cb545d !important;
+	text-align: center !important;
+}
+
+.content-r {
+	background: #fff none repeat scroll 0 0;
+	padding: 20px;
+}
+
+.shop-fieldset-style {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	border-color: #d9e0e8 currentcolor currentcolor;
+	border-image: none;
+	border-style: solid none none;
+	border-width: 1px 0 0;
+	margin: 0;
+	padding: 0 0 10px;
+}
+
+.shop-fieldset-style legend {
+	color: #005ba9;
+	margin: 0;
+	padding: 0;
+}
+
+.shop-check-msg .error {
+	background: rgba(0, 0, 0, 0) url("../images/error_ok.gif") no-repeat
+		scroll 0 2px;
+	color: #f00;
+	display: block;
+	float: left;
+	line-height: 14px;
+	padding-left: 12px;
+}
+
+.shop-check-msg .ok {
+	background: rgba(0, 0, 0, 0) url("../images/error_ok.gif") no-repeat
+		scroll 0 -36px;
+	display: block;
+	float: left;
+	height: 14px;
+	line-height: 14px;
+	width: 20px;
+}
+
+/** 图片上传预览上传样式**/
+.up-section {
+	position: relative;
+	margin-right: 20px;
+	margin-bottom: 20px;
+    border: 1px solid #ccc;
+}
+
+.up-section .close-upimg {
+	position: absolute;
+	top: 6px;
+	right: 8px;
+	display: none;
+	z-index: 10;
+}
+
+.up-section .up-span {
+	display: block;
+	width: 100%;
+	height: 100%;
+	visibility: hidden;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 9;
+	background: rgba(0, 0, 0, .5);
+}
+
+.up-section:hover {
+	border: 1px solid #f15134;
+}
+
+.up-section:hover .close-upimg {
+	display: block;
+}
+
+.up-section:hover .up-span {
+	visibility: visible;
+}
+
+.up-img {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+/**  *图片上传预览上传样式 结束 **/
+/**nav导航开始**/
+.breadnav {
+	background-color: #fbfbfb;
+	padding: 0 20px;
+	color: #4f749e;
+	font-size: 14px;
+	position: relative;
+}
+
+.breadnav a {
+	color: #4f749e;
+	text-decoration: none;
+}
+
+.breadnav i {
+	font-size: 16px;
+	color: #3f79bb;
+}
+input[name='parentCategory']:hover{
+	cursor: pointer;
+}
+/**nav导航结束**/

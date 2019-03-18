@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+	<!-- 放行文件和目录 -->
+	<security:http security="none" pattern="/pages/login.jsp" />
+	<security:http security="none" pattern="/css/**" />
+	<security:http security="none" pattern="/js/**" />
+	<security:http security="none" pattern="/images/**" />
+	<security:http security="none" pattern="/fonts/**" />
+	<security:http security="none" pattern="/upload/**" />
+	<security:http security="none" pattern="/servlet/**" />
+	<security:http entry-point-ref="authEntryPoint">
+		<!-- 禁用 csrf功能 -->
+		<security:csrf disabled="true" />
+		<security:intercept-url pattern="/**"
+			access="hasAnyRole('ROLE_ADMIN')" />
+		<!-- 添加自己定义的 AuthenticationFilter 到 FilterChain 的 FORM_LOGIN_FILTER 位置 -->
+		<security:custom-filter
+			ref="authenticationFilterImpl" position="FORM_LOGIN_FILTER" />
+		<security:logout logout-url="/logout.action"
+			logout-success-url="/pages/login.jsp" invalidate-session="true" />
+		<security:headers>
+			<security:frame-options policy="SAMEORIGIN" />
+		</security:headers>
+	</security:http>
+	<security:authentication-manager
+		alias="authenticationManager">
+		<security:authentication-provider
+			user-service-ref="userDetailsService">
+			<security:password-encoder hash="md5" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+	<!-- AuthenticationEntryPoint，引导用户进行登录 -->
+	<bean id="authEntryPoint"
+		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<constructor-arg name="loginFormUrl"
+			value="/pages/login.jsp"></constructor-arg>
+	</bean>
+	<!-- 认证过滤器 -->
+	<bean id="authenticationFilterImpl"
+		class="com.shop.service.impl.UsernamePasswordAuthenticationFilterImpl">
+		<property name="authenticationManager"
+			ref="authenticationManager" />
+		<property name="usernameParameter" value="username" />
+		<property name="passwordParameter" value="pwd" />
+		<property name="filterProcessesUrl" value="/login.action" />
+		<property name="authenticationSuccessHandler"
+			ref="authSuccess" />
+		<property name="authenticationFailureHandler"
+			ref="authFailure"></property>
+	</bean>
+	<!-- 授权验证类 -->
+	<bean id="userDetailsService"
+		class="com.shop.service.impl.UserDetailsServiceImpl" />
+	<!-- 授权成功处理类 -->
+	<bean id="authSuccess"
+		class="com.shop.service.impl.AuthenticationSuccessHandlerImpl" />
+	<bean id="authFailure"
+		class="com.shop.service.impl.AuthenticationFailureHandlerImpl" />
+</beans>

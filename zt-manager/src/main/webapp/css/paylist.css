@@ -1,0 +1,210 @@
+.wrap {
+	width: 100%;
+	margin: 0px;
+	clear: both;
+}
+
+.wrap .line {
+	text-align: left;
+	background: url(../images/line.png) repeat-x 50px center;
+	margin-bottom: 5px;
+}
+
+.wrap .line .paytitle {
+	display: inline-block;
+	background: #fff;
+	padding-left: 10px;
+}
+
+li.pay-list {
+	float: left;
+	margin-left: 10px;
+}
+
+.online-pay li {
+	width: 160px;
+	height: 160px;
+	border: 1px solid #d9d9d9;
+	position: relative;
+}
+
+.online-pay li .img-wrap {
+	margin-top: 10px;
+	height: 55px;
+	text-align: center;
+}
+
+.online-pay li .img-wrap img {
+	height: 55px;
+}
+
+.online-pay li .text-wrap {
+	height: 45px;
+	color: #7c7c7c;
+	padding: 0 10px;
+	margin-top: 10px;
+	line-height: 14px;
+}
+
+.text-wrap .describe {
+	color: #7c7c7c;
+}
+
+.text-wrap .control {
+	color: #7c7c7c;
+}
+
+.text-wrap .control a {
+	text-decoration: none;
+	color: blue;
+}
+
+.online-pay .btn-wrap {
+	margin-top: 10px;
+	position: absolute;
+	left: 55px;
+	z-index: 99
+}
+
+.good-delivery .btn-wrap {
+	margin-top: 10px;
+	position: absolute;
+	left: 45px;
+	z-index: 99
+}
+
+.good-delivery {
+	padding-top: 20px;
+}
+
+.good-delivery li {
+	width: 140px;
+	height: 130px;
+	border: 1px solid #d9d9d9;
+	position: relative;
+}
+
+.good-delivery .pay-list .img-wrap {
+	max-width: 140px;
+	max-height: 55px;
+	text-align: center;
+}
+
+.good-delivery .pay-list .img-wrap img {
+	max-width: 140px;
+	max-height: 55px;
+}
+
+.good-delivery li .text-wrap {
+	line-height: 12px;
+	text-align: center;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.good-delivery  li  .mask-wrap {
+	width: 140px;
+	height: 130px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background: #ccc;
+	filter: alpha(opacity = 50);
+	-moz-opacity: 0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+	z-index: 10;
+}
+
+.online-pay  li  .mask-wrap {
+	width: 160px;
+	height: 160px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background: #ccc;
+	filter: alpha(opacity = 50);
+	-moz-opacity: 0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+	z-index: 10;
+}
+
+/*tab风格样式 */
+.tab-menu {
+	background: url(../images/tabs.png) 0 -174px repeat-x;
+	overflow: hidden;
+	margin-top: 20px;
+}
+
+.tab-menu li {
+	float: left;
+	background: #e4e7eb;
+	padding-right: 3px;
+	margin-left: 10px;
+}
+
+.tab-menu li.active {
+	background: #8aace0;
+}
+
+.tab-menu li span {
+	padding: 0 10px;
+	height: 30px;
+	line-height: 30px;
+	float: left;
+	cursor: pointer;
+	color: #000;
+}
+
+.tab-menu li.active span {
+	color: #fff;
+}
+
+.tab-content {
+	margin-top: 20px;
+	margin-left: 10px;
+	padding: 0px;
+}
+/*tab风格样式结束*/
+.online-promotion {
+	width: 45%;
+	height: auto;
+	float: left;
+}
+
+.online-promotion fieldset,.goods-promotion fieldset {
+	padding-left: 20px;
+	padding-top:15px;
+}
+
+.goods-promotion {
+	width: 45%;
+	height: auto;
+	margin-left: 20px;
+	float: left;
+}
+
+.left {
+	text-align: left !important;
+	padding-left: 0px !important;
+}
+
+.promo-input {
+	border: 1px solid #e6e6e6;
+	border-width: 1px;
+	height: 30px;
+	width: 50px;
+	padding-left: 10px;
+}
+
+.promo-desc {
+	display: inline-block;
+}
+/**layui 样式修改**/
+.layui-form-label {
+	width: 100px !important;
+}
+.text{
+	display: inline-block;
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+	<item name="商品管理" service="productService">
+		<subItem url="/product/list.action">商品列表</subItem>
+		<subItem url="/product/showCategory.action">商品类型</subItem>
+		<subItem url="/product/showBrand.action">商品品牌</subItem>
+		<subItem url="/productTemplate/list.action">属性模板设置</subItem>
+	</item>
+	<item name="会员管理" service="customerService">
+		<subItem url="/customer/list.action">会员维护</subItem>
+	</item>
+	<item name="页面内容" service="comContentService">
+		<subItem url="/pages/common_content_list.jsp">全部页面内容</subItem>
+	</item>
+	<item name="资讯" service="newsService">
+		<subItem url="/pages/info_content_list.jsp">新闻资讯</subItem>
+		<subItem url="/info/showCategory.action">维护资讯分类</subItem>
+	</item>
+	<item name="留言" service="messageService">
+		<subItem url="/pages/message_list.jsp">在线留言</subItem>
+	</item>
+	<item name="广告" service="ggService">
+		<subItem url="/ad/list.action">幻灯广告</subItem>
+		<subItem url="/gallery/list.action">其他广告</subItem>
+	</item>
+	<item name="网站设置" service="shopService">
+		<subItem url="/site/config.action">基本信息设置</subItem>
+		<subItem url="/site/siteRunSetting.action">运营状态设置</subItem>
+	</item>
+</menu>

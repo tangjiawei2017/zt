@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.mapper.InfoContentMapper">
+	<resultMap id="BaseResultMap"
+		type="com.shop.model.InfoContentDO">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="CATEGORY_ID" jdbcType="INTEGER"
+			property="categoryId" />
+		<result column="IMAGE" jdbcType="VARCHAR" property="image" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="AUTHOR" jdbcType="VARCHAR" property="author" />
+		<result column="SOURCE" jdbcType="VARCHAR" property="source" />
+		<result column="SUMMARY" jdbcType="VARCHAR" property="summary" />
+		<result column="CREATED" jdbcType="TIMESTAMP"
+			property="created" />
+		<result column="MODIFIED" jdbcType="TIMESTAMP"
+			property="modified" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.shop.model.InfoContentDO">
+		<result column="CONTENT" jdbcType="LONGVARCHAR"
+			property="content" />
+	</resultMap>
+	<resultMap id="InfoContentAndCategoryResultMap"
+		type="com.shop.model.InfoContentDO">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="CATEGORY_ID" jdbcType="INTEGER"
+			property="categoryId" />
+		<result column="IMAGE" jdbcType="VARCHAR" property="image" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="AUTHOR" jdbcType="VARCHAR" property="author" />
+		<result column="SOURCE" jdbcType="VARCHAR" property="source" />
+		<result column="SUMMARY" jdbcType="VARCHAR" property="summary" />
+		<result column="CREATED" jdbcType="TIMESTAMP"
+			property="created" />
+		<result column="MODIFIED" jdbcType="TIMESTAMP"
+			property="modified" />
+		<result column="CONTENT" jdbcType="LONGVARCHAR"
+			property="content" />
+		<association property="category"
+			javaType="com.shop.model.InfoCategoryDO">
+			<id column="IID" jdbcType="INTEGER" property="id" />
+			<result column="INAME" jdbcType="VARCHAR" property="name" />
+		</association>
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, CATEGORY_ID, IMAGE, NAME,
+		AUTHOR,SOURCE,SUMMARY,CREATED,
+		MODIFIED
+	</sql>
+	<sql id="Blob_Column_List">
+		CONTENT
+	</sql>
+	<select id="selectByPrimaryKey"
+		parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List"></include>
+		,
+		<include refid="Blob_Column_List"></include>
+		from T_INFO_CONTENT where ID=#{id}
+	</select>
+	<select id="getNextInfoContent" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List"></include>
+		,
+		<include refid="Blob_Column_List"></include>
+		from T_INFO_CONTENT where CATEGORY_ID=#{cid} and CREATED &gt;
+		#{created}
+		order by
+		CREATED asc
+	</select>
+	<select id="getNewInfo" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List"></include>
+		,
+		<include refid="Blob_Column_List"></include>
+		from T_INFO_CONTENT
+		order by
+		CREATED desc
+		limit 0,#{limit}
+	</select>
+	<select id="getPreInfoContent" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List"></include>
+		,
+		<include refid="Blob_Column_List"></include>
+		from T_INFO_CONTENT where CATEGORY_ID=#{cid} and CREATED &lt;
+		#{created}
+		order by
+		CREATED desc
+	</select>
+	<select id="countInfoContentByCategoryId" resultType="int">
+		select
+		count(*) from T_INFO_CONTENT where CATEGORY_ID=#{id}
+	</select>
+	<select id="selectInfoContentAndCategoryByPrimaryKey"
+		parameterType="java.lang.Integer"
+		resultMap="InfoContentAndCategoryResultMap">
+		select
+		a.ID, a.CATEGORY_ID, a.IMAGE, a.NAME,
+		a.AUTHOR,a.SOURCE,a.CREATED,a.SUMMARY,
+		a.MODIFIED
+		,a.CONTENT,
+		i.ID
+		IID,i.NAME INAME
+		from T_INFO_CONTENT a inner
+		join
+		T_INFO_CATEGORY
+		i
+		on
+		a.CATEGORY_ID = i.id
+		where a.ID=#{id} order by
+		a.CREATED desc
+	</select>
+	<select id="selectInfoContentByPage"
+		resultMap="InfoContentAndCategoryResultMap">
+		select
+		a.ID, a.CATEGORY_ID, a.IMAGE,
+		a.NAME,a.AUTHOR,a.SOURCE, a.CREATED,a.SUMMARY,
+		a.MODIFIED
+		,a.CONTENT,
+		i.ID
+		IID,i.NAME INAME
+		from T_INFO_CONTENT a inner
+		join
+		T_INFO_CATEGORY
+		i
+		on
+		a.CATEGORY_ID = i.id limit
+		#{start},#{limit}
+	</select>
+	<select id="selectInfoContentByPageAndCategory"
+		resultMap="InfoContentAndCategoryResultMap">
+		select
+		a.ID, a.CATEGORY_ID, a.IMAGE,
+		a.NAME,a.AUTHOR,a.SOURCE, a.CREATED,a.SUMMARY,
+		a.MODIFIED
+		,a.CONTENT,
+		i.ID
+		IID,i.NAME INAME
+		from T_INFO_CONTENT a inner
+		join
+		T_INFO_CATEGORY
+		i
+		on
+		a.CATEGORY_ID = i.id where a.CATEGORY_ID=#{categoryId} limit
+		#{start},#{limit}
+	</select>
+	<select id="countInfoContent" resultType="int">
+		select count(*) from
+		T_INFO_CONTENT
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from T_INFO_CONTENT
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.shop.model.InfoContentDO">
+		<selectKey keyProperty="id" order="AFTER"
+			resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into T_INFO_CONTENT (CATEGORY_ID, IMAGE,
+		NAME,AUTHOR,SOURCE,SUMMARY,
+		CREATED,
+		MODIFIED, CONTENT
+		)
+		values
+		(#{categoryId,jdbcType=INTEGER},
+		#{image,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},#{author},#{source},#{summary},
+		#{created,jdbcType=TIMESTAMP}, #{modified,jdbcType=TIMESTAMP},
+		#{content,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.shop.model.InfoContentDO">
+		<selectKey keyProperty="id" order="AFTER"
+			resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into T_INFO_CONTENT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="categoryId != null">
+				CATEGORY_ID,
+			</if>
+			<if test="image != null">
+				IMAGE,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="author != null">
+				AUTHOR,
+			</if>
+			<if test="source != null">
+				SOURCE,
+			</if>
+			<if test="summary != null">
+				SUMMARY,
+			</if>
+			<if test="created != null">
+				CREATED,
+			</if>
+			<if test="modified != null">
+				MODIFIED,
+			</if>
+			<if test="content != null">
+				CONTENT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="categoryId != null">
+				#{categoryId,jdbcType=INTEGER},
+			</if>
+			<if test="image != null">
+				#{image,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null">
+				#{author,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null">
+				#{source,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null">
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				#{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modified != null">
+				#{modified,jdbcType=TIMESTAMP},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.shop.model.InfoContentDO">
+		update T_INFO_CONTENT
+		<set>
+			<if test="categoryId != null">
+				CATEGORY_ID = #{categoryId,jdbcType=INTEGER},
+			</if>
+			<if test="image != null">
+				IMAGE = #{image,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null">
+				AUTHOR=#{author,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null">
+				SOURCE=#{source,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null">
+				SUMMARY=#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="created != null">
+				CREATED = #{created,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modified != null">
+				MODIFIED = #{modified,jdbcType=TIMESTAMP},
+			</if>
+			<if test="content != null">
+				CONTENT = #{content,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="com.shop.model.InfoContentDO">
+		update T_INFO_CONTENT
+		set CATEGORY_ID =
+		#{categoryId,jdbcType=INTEGER},
+		IMAGE = #{image,jdbcType=VARCHAR},
+		NAME=#{name,jdbcType=VARCHAR},
+		AUTHOR=#{author,jdbcType=VARCHAR},
+		SOURCE=#{source,jdbcType=VARCHAR},SUMMARY=#{summary,jdbcType=VARCHAR},
+		CREATED =
+		#{created,jdbcType=TIMESTAMP},
+		MODIFIED =
+		#{modified,jdbcType=TIMESTAMP},
+		CONTENT =
+		#{content,jdbcType=LONGVARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.shop.model.InfoContentDO">
+		update T_INFO_CONTENT
+		set CATEGORY_ID =
+		#{categoryId,jdbcType=INTEGER},
+		IMAGE = #{image,jdbcType=VARCHAR},
+		NAME= #{name,jdbcType=VARCHAR},
+		AUTHOR=#{author,jdbcType=VARCHAR},
+		SOURCE=#{source,jdbcType=VARCHAR},
+		SUMMARY=#{summary,jdbcType=VARCHAR},
+		CREATED =
+		#{created,jdbcType=TIMESTAMP},
+		MODIFIED =
+		#{modified,jdbcType=TIMESTAMP}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+</mapper>
